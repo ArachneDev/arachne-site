@@ -1,28 +1,40 @@
-# app-starter
+# arachne-site
 
-The template every new ArachneDev app repo is created from. It builds as is and passes the shared pipeline; edit `server.js` and keep the README sections below true.
+The public website of the Arachne WARDOGS clan, at `https://arachne.doublew.nu`. It is a TanStack Start (React, Tailwind) site that Node renders on request. It has no backend, no database, no secrets and no environment beyond `PORT`.
 
-`.github/ISSUE_TEMPLATE/new-app.yml` is the hosting request form for this template repo only; it is removed from new repos.
+This repo was made from `app-starter`. `AGENTS.md` carries the container contract: keep it true when you change the code.
+
+## Develop
+
+| To | Run |
+|---|---|
+| Install | `corepack enable && pnpm install --frozen-lockfile --ignore-scripts` (Node 22) |
+| Run with reload | `pnpm dev` |
+| Test | `pnpm test` |
+| Build the image | `podman build --build-arg VERSION=dev -t arachne-site .` |
+| Run it as the host does | `podman run --rm -p 3000:3000 --read-only --tmpfs /tmp --cap-drop=all --memory=384m arachne-site` |
+
+Check: `curl localhost:3000/healthz` prints `ok dev`.
+
+- Images the pages use live in `public/__l5e/assets-v1/` and are served as plain files. `src/assets/*.asset.json` points at them by path.
+- `pnpm-lock.yaml` is the only lockfile. The build installs with `--frozen-lockfile` and refuses packages published in the last 24 hours.
+- The build config comes from `@lovable.dev/vite-tanstack-config` (the site was exported from Lovable). The `Containerfile` builds it with `NITRO_PRESET=node-server`.
 
 ## Port
 
-3000 (the `PORT` variable overrides it). The only route besides `/` is `/healthz`, which returns `ok <version>`, the `VERSION` build argument.
+3000 (the `PORT` variable overrides it). `/healthz` returns `ok <version>`, the `VERSION` build argument.
 
 ## Volumes
 
-None. The example writes nothing. List every path the app must keep, so the host can mount and back it up.
+None. The server writes nothing, so it runs on a read-only root.
 
 ## Dependencies
 
-None. List every external service (database, API, bot token) the app calls.
+None. The pages call no API and no other service at run time.
 
 ## Memory
 
-Peak about 57 MB of resident memory under load (3000 `/healthz` requests, 20 at a time) and about 16 MB idle [Local test, Node 22 on Alpine, 64 MB limit]. The pipeline default of 512m is plenty. Replace this with your own app's measured peak, and pass it as `memory` (peak plus 25 to 50 percent) if you want a tighter limit.
-
-## Secrets
-
-The app reads them from `/run/secrets/app.json`, a JSON object (see `ci/app.json` for the shape). It passes each value to the code that needs it and never copies it into the environment. A missing file or key stops the app at start-up with `startup error: ...`. `ci/app.json` holds fake values for the pipeline's contract test only.
+Peak about 40 MB of resident memory after 300 requests (20 at a time) and about 23 MB after start-up [Local test, Node 22 on Alpine, 384 MB limit]. The pipeline input `memory: 384m` in `.github/workflows/release.yml` keeps the old limit.
 
 ## CI
 
@@ -31,5 +43,3 @@ The app reads them from `/run/secrets/app.json`, a JSON object (see `ci/app.json
 ## Before the first commit
 
 Install the gitleaks hook: `pip install pre-commit && pre-commit install`. Turn on GitHub push protection for the repo.
-
-Keep `AGENTS.md`: it carries the container contract for you and your agents.

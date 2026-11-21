@@ -4,7 +4,7 @@ This app is hosted as a container by a shared platform. The platform does not ca
 
 - **Port.** Listen on `PORT` (default 3000), above 1024.
 - **Variables.** List every variable the app reads in `.env.example`, one `# description` line each.
-- **Secrets.** Read app secrets only from `/run/secrets/app.json`. Pass each value to the code that needs it; never export it to the environment, log it or put it in the image or a build argument. A missing key is a clear start-up error. Never commit a real secret; `ci/app.json` holds fake values only.
+- **Secrets.** Read app secrets only from `/run/secrets/app.json`. Pass each value to the code that needs it; never export it to the environment, log it or put it in the image or a build argument. A missing key is a clear start-up error. Never commit a real secret. This site has none; if one is added, commit fake values in `ci/app.json` and set `app-json` in `release.yml` so the contract test can load them.
 - **Public address.** Build absolute and redirect URLs from `PUBLIC_URL`, not from the request. Trust the proxy headers.
 - **Health.** `/healthz` returns 2xx with the build version: keep `ARG VERSION` and `ENV VERSION` in the `Containerfile`.
 - **Hardened runtime.** The image runs with a read-only root, no capabilities and a memory limit. Write temporary files under `/tmp`. State any exception and why in the README.

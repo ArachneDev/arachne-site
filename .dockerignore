@@ -12,5 +12,9 @@ node_modules
 data/
 *.sqlite
 *.db
-ci/
 .pre-commit-config.yaml
+.output
+.nitro
+.tanstack
+dist
+dist-ssr

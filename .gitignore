@@ -6,8 +6,13 @@
 *.p12
 credentials*
 secrets*
-!ci/app.json
 node_modules/
 data/
 *.sqlite
 *.db
+.output/
+.nitro/
+.tanstack/
+dist/
+dist-ssr/
+*.log

@@ -1,0 +1,147 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-display: "Black Ops One", "Oswald", sans-serif;
+  --font-heading: "Oswald", sans-serif;
+  --font-sans: "Barlow", sans-serif;
+  --font-mono: "Share Tech Mono", monospace;
+  --radius-sm: 0px;
+  --radius-md: 1px;
+  --radius-lg: 2px;
+  --radius-xl: 3px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-steel: var(--steel);
+  --color-win: var(--win);
+  --color-loss: var(--loss);
+  --color-crest: var(--crest);
+  --color-signal: var(--signal);
+  --color-medal-gold: var(--medal-gold);
+  --color-medal-silver: var(--medal-silver);
+  --color-medal-bronze: var(--medal-bronze);
+  --color-match-accent: var(--page-matches);
+}
+
+:root {
+  --radius: 2px;
+  --background: oklch(0.13 0.004 20);
+  --foreground: oklch(0.92 0.005 60);
+  --card: oklch(0.17 0.005 20);
+  --card-foreground: oklch(0.92 0.005 60);
+  --popover: oklch(0.17 0.005 20);
+  --popover-foreground: oklch(0.92 0.005 60);
+  --primary: oklch(0.58 0.23 27);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.22 0.006 20);
+  --secondary-foreground: oklch(0.92 0.005 60);
+  --muted: oklch(0.2 0.005 20);
+  --muted-foreground: oklch(0.62 0.01 40);
+  --accent: oklch(0.25 0.03 25);
+  --accent-foreground: oklch(0.95 0 0);
+  --destructive: oklch(0.58 0.23 27);
+  --destructive-foreground: oklch(0.98 0 0);
+  --border: oklch(0.28 0.008 20);
+  --input: oklch(0.28 0.008 20);
+  --ring: oklch(0.58 0.23 27);
+  --steel: oklch(0.78 0.01 250);
+  --win: oklch(0.72 0.15 145);
+  --loss: oklch(0.58 0.23 27);
+  --crest: oklch(0.08 0 0);
+  --signal: oklch(0.76 0.14 25);
+  --medal-gold: oklch(0.82 0.14 85);
+  --medal-silver: oklch(0.87 0.015 250);
+  --medal-bronze: oklch(0.62 0.11 45);
+  --page-hq: oklch(0.58 0.23 27);
+  --page-about: #e8e2d5;
+  --page-structure: #b87333;
+  --page-roster: #2e8b57;
+  --page-matches: oklch(0.7 0.13 240);
+  --page-fame: oklch(0.8 0.15 85);
+  --page-events: oklch(0.65 0.2 305);
+  --page-enlist: oklch(0.72 0.18 145);
+  --squad-forgeweaver: oklch(0.74 0.2 130);
+  --squad-cerberus: oklch(0.57 0.23 25);
+  --squad-blackspear: oklch(0.77 0.16 80);
+  --squad-direhound: oklch(0.7 0.19 45);
+  --squad-deadwatch: oklch(0.77 0.14 205);
+  --squad-deathwing: oklch(0.63 0.2 305);
+  --squad-dreadnought: oklch(0.62 0.17 250);
+  --hero-shade: linear-gradient(180deg, color-mix(in oklab, var(--background) 20%, transparent), color-mix(in oklab, var(--background) 42%, transparent) 65%, var(--background));
+  --glow-red: 0 0 24px -4px color-mix(in oklab, var(--primary) 70%, transparent);
+  --shadow-record: 0 8px 0 -5px var(--crest), 0 16px 30px -10px color-mix(in oklab, var(--crest) 80%, transparent), inset 0 1px 0 color-mix(in oklab, var(--foreground) 7%, transparent);
+}
+
+@layer base {
+  * { border-color: var(--color-border); }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  h1, h2, h3 { font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 0; }
+  a, button { -webkit-tap-highlight-color: transparent; }
+}
+
+@utility font-stencil { font-family: var(--font-display); letter-spacing: 0; }
+@utility glow-red { box-shadow: var(--glow-red); }
+@utility text-glow { text-shadow: 0 0 18px color-mix(in oklab, var(--primary) 60%, transparent); }
+@utility clip-notch {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+@utility hazard {
+  background-image: repeating-linear-gradient(-45deg, var(--primary) 0 10px, transparent 10px 20px);
+}
+@utility scanlines {
+  background-image: repeating-linear-gradient(0deg, color-mix(in oklab, var(--foreground) 4%, transparent) 0 1px, transparent 1px 3px);
+}
+
+.hq-hero { min-height: 710px; height: min(840px, calc(100svh - 116px)); }
+.hq-hero::after { content: ""; position: absolute; inset: 0; background: var(--hero-shade); pointer-events: none; }
+.hero-content { animation: reveal 700ms ease-out both; }
+.section-index { display: flex; align-items: center; gap: 12px; font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; color: color-mix(in oklab, var(--foreground) 78%, transparent); }
+.section-index::before { content: ""; width: 22px; height: 2px; background: var(--primary); }
+.page-masthead { background-size: cover; background-position: center 48%; }
+.competition-record { box-shadow: var(--shadow-record); }
+.page-title { font-family: var(--font-display); font-size: 48px; line-height: 0.95; text-transform: uppercase; letter-spacing: 0; }
+@media (max-width: 400px) { .page-title { font-size: 40px; } }
+@media (min-width: 640px) { .page-title { font-size: 72px; } }
+@media (min-width: 1024px) { .page-title { font-size: 96px; } }
+@keyframes reveal { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 640px) { .hq-hero { min-height: 590px; height: calc(100svh - 190px); max-height: 730px; } }
+@media (prefers-reduced-motion: reduce) { .hero-content { animation: none; } * { scroll-behavior: auto; } }
+
+@keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ticker-marker { background-color: var(--ticker-accent); box-shadow: 0 0 9px color-mix(in oklab, var(--ticker-accent) 75%, transparent); }
+.ticker-track { display: flex; width: max-content; animation: ticker-scroll 42s linear infinite; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } .ticker { overflow-x: auto; } }
+
+.nav-page { transition: color 160ms ease, text-shadow 160ms ease, border-color 160ms ease; }
+.nav-page:hover { color: var(--nav); text-shadow: 0 0 16px color-mix(in oklab, var(--nav) 70%, transparent); }
+.nav-page.is-active { color: var(--nav); border-color: var(--nav); text-shadow: 0 0 12px color-mix(in oklab, var(--nav) 55%, transparent); }

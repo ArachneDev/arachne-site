@@ -1,10 +1,22 @@
-# Non-root image. The pipeline passes VERSION (the release tag); /healthz returns it.
-FROM docker.io/library/node:22-alpine@sha256:12f54cafa58d0e96554ae05871e29663ff7241836377dc9a7916449b8adb062c
+# Builds the site into a small Node image that runs the Nitro server output.
+# Install scripts are off, and pnpm refuses packages published in the last 24 hours (minimumReleaseAge, in minutes).
+FROM docker.io/library/node:22.23.4-alpine3.24 AS build
+RUN npm install -g pnpm@12.16.1
 WORKDIR /app
-COPY package.json server.js ./
+RUN printf 'minimumReleaseAge: 1440\nstrictDepBuilds: false\n' > pnpm-workspace.yaml
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile --ignore-scripts
+COPY . .
+ENV NITRO_PRESET=node-server
+RUN pnpm exec vite build && test -f .output/server/index.mjs
+
+FROM docker.io/library/node:22.23.4-alpine3.24
+# The pipeline passes VERSION (the release tag); /healthz returns it.
 ARG VERSION=dev
-ENV VERSION=$VERSION NODE_ENV=production
-# A numeric UID above 0: a name can map to root. The app only reads its files.
+ENV NODE_ENV=production VERSION=$VERSION PORT=3000 HOST=0.0.0.0
+WORKDIR /app
+COPY --from=build /app/.output ./.output
+# A numeric UID above 0: a name can map to root. The server only reads its files.
 USER 10001:10001
 EXPOSE 3000
-CMD ["node", "server.js"]
+CMD ["node", ".output/server/index.mjs"]

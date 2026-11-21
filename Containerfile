@@ -1,6 +1,6 @@
 # Builds the site into a small Node image that runs the Nitro server output.
 # Install scripts are off, and pnpm refuses packages published in the last 24 hours (minimumReleaseAge, in minutes).
-FROM docker.io/library/node:22.23.4-alpine3.24 AS build
+FROM docker.io/library/node:26.13.1-alpine3.24 AS build
 RUN npm install -g pnpm@12.16.1
 WORKDIR /app
 RUN printf 'minimumReleaseAge: 1440\nstrictDepBuilds: false\n' > pnpm-workspace.yaml
@@ -10,7 +10,7 @@ COPY . .
 ENV NITRO_PRESET=node-server
 RUN pnpm exec vite build && test -f .output/server/index.mjs
 
-FROM docker.io/library/node:22.23.4-alpine3.24
+FROM docker.io/library/node:26.13.1-alpine3.24
 # The pipeline passes VERSION (the release tag); /healthz returns it.
 ARG VERSION=dev
 ENV NODE_ENV=production VERSION=$VERSION PORT=3000 HOST=0.0.0.0

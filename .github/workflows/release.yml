@@ -2,8 +2,14 @@ name: release
 on:
   pull_request:
   push: {branches: [main], tags: ["v*.*.*"]}
+  workflow_dispatch:
+    inputs:
+      version: {description: "Earlier version to put back on :prod, such as v1.0.0", required: true}
 jobs:
   build:
     permissions: {contents: read, packages: write}
     uses: ArachneDev/app-pipeline/.github/workflows/build.yml@v1
-    with: {memory: 384m}
+    with:
+      memory: 384m
+      promote: true
+      production-url: https://new-arachne.doublew.nu/healthz
